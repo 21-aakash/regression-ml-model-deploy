@@ -1,48 +1,115 @@
 <!DOCTYPE html>
-<html >
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>ML API</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  <title>Boston House Price Prediction</title>
 
-  
+  <!-- Roboto Font from Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap for layout (optional) -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <style>
+    body {
+      font-family: 'Roboto', Helvetica, sans-serif;
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      padding: 50px;
+    }
+
+    .login {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .login h1 {
+      font-weight: 700;
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .login p {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #444;
+    }
+
+    .login form input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .login button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      transition: 0.3s ease-in-out;
+    }
+
+    .login button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
 </head>
 
 <body>
- <div class="login">
-	<h1>Boston House Price Prediction</h1>
+  <div class="login">
+    <h1>🏡 Boston House Price Prediction</h1>
 
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-      <input type="text" name="CRIM" placeholder="CRIM" required="required" /><br>
-    	<input type="text" name="ZN" placeholder="ZN" required="required" /><br>
-        <input type="text" name="INDUS" placeholder="INDUS" required="required" /><br>
-        <input type="text" name="CHAS" placeholder="CHAS" required="required" /><br>
-        <input type="text" name="NOX" placeholder="NOX" required="required" /><br>
-        <input type="text" name="RM" placeholder="RM" required="required" /><br>
-        <input type="text" name="Age" placeholder="Age" required="required" /><br>
-        <input type="text" name="DIS" placeholder="DIS" required="required" /><br>
-        <input type="text" name="RAD" placeholder="RAD" required="required" /><br>
-        <input type="text" name="TAX" placeholder="TAX" required="required" /><br>
-        <input type="text" name="PTRATIO" placeholder="PTRATIO" required="required" /><br>
-        <input type="text" name="B" placeholder="B" required="required" /><br>
-        <input type="text" name="LSTAT" placeholder="LSTAT" required="required" /><br>
+    <!-- Description blocks -->
+    <p>🔢 <strong>OverallQual – Overall Quality:</strong> Rates overall material and finish of the house (1-10). Example: 8</p>
+    <p>🏠 <strong>GrLivArea – Ground Living Area:</strong> Above-ground living area in square feet. Example: 1500</p>
+    <p>🚗 <strong>GarageCars – Garage Capacity:</strong> Number of cars that fit in the garage. Example: 2</p>
+    <p>🧱 <strong>TotalBsmtSF – Total Basement Area:</strong> Total square footage of basement. Example: 800</p>
+    <p>🛁 <strong>FullBath – Full Bathrooms:</strong> Number of full bathrooms. Example: 2</p>
+    <p>🏗️ <strong>YearBuilt – Year Built:</strong> Year house was originally built. Example: 2005</p>
+    <p>🛠️ <strong>YearRemodAdd – Year Remodeled:</strong> Year of last remodel. Example: 2010</p>
+    <p>🪟 <strong>1stFlrSF – First Floor Area:</strong> Square feet of 1st floor. Example: 1100</p>
+    <p>🛏️ <strong>TotRmsAbvGrd – Rooms Above Ground:</strong> Excludes bathrooms. Example: 6</p>
+    <p>🔥 <strong>Fireplaces – Number of Fireplaces:</strong> Example: 1</p>
 
-       
-
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    <!-- Input form -->
+    <form action="{{ url_for('predict') }}" method="post">
+      <input type="text" name="OverallQual" placeholder="Overall Quality (1-10)" required />
+      <input type="text" name="GrLivArea" placeholder="Ground Living Area (sqft)" required />
+      <input type="text" name="GarageCars" placeholder="Garage Capacity" required />
+      <input type="text" name="TotalBsmtSF" placeholder="Total Basement Area (sqft)" required />
+      <input type="text" name="FullBath" placeholder="Full Bathrooms" required />
+      <input type="text" name="YearBuilt" placeholder="Year Built" required />
+      <input type="text" name="YearRemodAdd" placeholder="Year Remodeled" required />
+      <input type="text" name="1stFlrSF" placeholder="1st Floor Area (sqft)" required />
+      <input type="text" name="TotRmsAbvGrd" placeholder="Rooms Above Ground" required />
+      <input type="text" name="Fireplaces" placeholder="Fireplaces" required />
+      <button type="submit">Predict</button>
     </form>
 
-   <br>
-   <br>
-  
-   
- </div>
- {{prediction_text}}
-
+    {% if prediction_text %}
+    <div class="result">{{ prediction_text }}</div>
+    {% endif %}
+  </div>
 </body>
+
 </html>
